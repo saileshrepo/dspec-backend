@@ -5,8 +5,11 @@ const networkDrivePathIn = "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\IN";
 const networkDrivePathOut = "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\OUT";
 
 networkDrive.find(networkDrivePathIn)
-    .then(function (driveLetter) {
-        console.log('Network Drive Present!')
+    .then(function (result) {
+        console.log('Network Drives :',result)
+        if(result.length === 0){
+            process.exit(1)
+        }
     });
 
 var store = multer.diskStorage({
