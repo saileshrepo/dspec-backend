@@ -7,9 +7,6 @@ const networkDrivePathOut = "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\OUT";
 networkDrive.find(networkDrivePathIn)
     .then(function (result) {
         console.log('Network Drives :',result)
-        if(result.length === 0){
-            process.exit(1)
-        }
     });
 
 var store = multer.diskStorage({
@@ -23,7 +20,7 @@ var store = multer.diskStorage({
 
 var upload = multer({ storage: store }).single('file');
 
-exports.fileUpload = (req) => {
+exports.fileUpload = (req,res) => {
     return new Promise((resolve, reject) => {
         upload(req, res, function (err) {
             if (err) {
