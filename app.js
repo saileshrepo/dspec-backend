@@ -17,9 +17,9 @@ app.use(bodyParser.json({
   }
 }));
 
-app.use('/github',require('./routes/github'))
+app.use('/repo',require('./routes/github'))
 app.use('/file',require('./routes/file'))
-app.use('/uipath',require('./routes/github'))
-app.use('/db',require('./routes/db'))
+//app.use('/uipath',require('./routes/github'))
+//app.use('/db',require('./routes/db'))
 
 module.exports = app;
