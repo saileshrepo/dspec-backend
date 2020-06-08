@@ -7,5 +7,13 @@ module.exports = {
         poolMax: 32,
         poolIncrement: 0,
         poolTimeout:0
-    }
+    },
+	networkDrivePathIn : "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\IN",
+    networkDrivePathOut : "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\OUT",
+	repo : {
+		owner : "sailesharya",
+		repo : "dspec-repo",
+		refFile : "DSPEC_Report_Keywords2.csv",
+		accessToken : "beb5181984dddb74623c50dba0f2ee46e70757c6"		
+	}
 };

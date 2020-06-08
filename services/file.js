@@ -1,8 +1,9 @@
 var multer = require('multer');
 const mv = require('mv');
 let networkDrive = require('windows-network-drive');
-const networkDrivePathIn = "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\IN";
-const networkDrivePathOut = "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\OUT";
+const configData = require('../config');
+const networkDrivePathIn = configData.networkDrivePathIn;
+const networkDrivePathOut = configData.networkDrivePathOut;
 
 networkDrive.find(networkDrivePathIn)
     .then(function (result) {

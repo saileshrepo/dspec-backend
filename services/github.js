@@ -1,13 +1,14 @@
 const csv = require('csvtojson');
 const token_generation = require('../services/generate_token');
 const request = require('request');
+const configData = require('../config');
 
 exports.githubFileSearch = (key,erp,track) => {
     return new Promise((resolve, reject) => {
-        var owner = "sailesharya";
-        var repo = "dspec-repo";
-        var refFile = "DSPEC_Report_Keywords2.csv";
-        var accessToken = "beb5181984dddb74623c50dba0f2ee46e70757c6";
+        var owner = configData.repo.owner;
+        var repo = configData.repo.repo;
+        var refFile = configData.repo.refFile;
+        var accessToken = configData.repo.accessToken;
 
         var options = {
             method: "GET",

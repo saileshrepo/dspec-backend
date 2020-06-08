@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const FileServices = require('../services/file')
 let networkDrive = require('windows-network-drive');
+const configData = require('../config');
+const networkDrivePathOut = configData.networkDrivePathOut;
 
 router.post('/upload', function (req, res, next) {
     FileServices.fileUpload(req)
@@ -14,14 +16,12 @@ router.post('/upload', function (req, res, next) {
 
 router.get('/download/:filename', function (req, res) {
     console.log('File Download from network drive for ', req.params.filename)
-    const networkDrivePathOut = "\\\\usazuconde00173\\DFTE\\R2\\DSPEC\\OUT";
     networkDrive.pathToWindowsPath(networkDrivePathOut)
         .then(function (windowsPath) {
             var filePath = windowsPath + '\\' + req.params.filename;
             console.log('file downloading path ', filePath);
             res.download(filePath);
         });
-
 });
 
 module.exports = router;
