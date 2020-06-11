@@ -3,6 +3,7 @@ const fs = require('fs');
 const multer = require('multer');
 const router = express.Router();
 const mv = require('mv');
+const path = require('path');
 const networkDrive = require('windows-network-drive');
 const configData = require('../config');
 const networkDrivePathIn = configData.networkDrivePathIn;
@@ -46,7 +47,7 @@ router.post('/upload', function(req,res,next){
 							return res.status(501).json({error:err});
 						}else{
 							console.log("File Uploaded Successfully to ",uploadpath);
-							fs.unlinkSync(file.path);
+							fs.unlinkSync( path.join(process.cwd(), file.path));
 							return res.status(200).json({originalname:req.file.originalname, uploadname:req.file.filename});
 						}
 					});
@@ -66,7 +67,7 @@ router.get('/download/:userRequestId/:filename', function (req, res) {
 });
 
 router.get('/delete/:filename', function (req, res) {
-    console.log('File Delete from network drive for ', req.params.filename)
+    console.log('File Delete from network drive for ', req.params.filename )
     networkDrive.pathToWindowsPath(networkDrivePathIn)
         .then(function (windowsPath) {
             var filePath = windowsPath + '\\' + req.params.filename;

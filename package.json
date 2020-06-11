@@ -30,6 +30,7 @@
     "mv": "^2.1.1",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.3",
+    "path": "^0.12.7",
     "request": "^2.88.2",
     "windows-network-drive": "^3.0.1"
   }
