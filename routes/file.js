@@ -41,14 +41,17 @@ router.post('/upload', function(req,res,next){
 					var uploadpath = windowsPath + '\\' + name;
 					console.log(uploadpath);
 					mv(file.path,uploadpath,function(err){
-						if(err)
+						if(err){
 							console.log("File Upload Failed for ",uploadpath,err);
-						else
+							return res.status(501).json({error:err});
+						}else{
 							console.log("File Uploaded Successfully to ",uploadpath);
+							fs.unlinkSync(file.path);
+							return res.status(200).json({originalname:req.file.originalname, uploadname:req.file.filename});
+						}
 					});
             });
-       }
-        return res.status(200).json({originalname:req.file.originalname, uploadname:req.file.filename});
+       }        
     });
 });
 
