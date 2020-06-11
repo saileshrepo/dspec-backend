@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const multer = require('multer');
 const router = express.Router();
 const networkDrive = require('windows-network-drive');
 const configData = require('../config');

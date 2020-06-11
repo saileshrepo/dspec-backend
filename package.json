@@ -21,12 +21,7 @@
   },
   "homepage": "https://github.com/sailesharya/dspec-backend#readme",
   "dependencies": {
-    "@octokit/rest": "^17.6.0",
-    "axios": "^0.19.2",
-    "base-64": "^0.1.0",
     "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
@@ -35,11 +30,7 @@
     "mv": "^2.1.1",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.3",
-    "oracledb": "^4.2.0",
     "request": "^2.88.2",
-    "shelljs": "^0.8.4",
-    "simple-git": "^2.3.0",
-    "sync-request": "^6.1.0",
     "windows-network-drive": "^3.0.1"
   }
 }
