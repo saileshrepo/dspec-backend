@@ -47,7 +47,7 @@ router.post('/upload', function(req,res,next){
 							return res.status(501).json({error:err});
 						}else{
 							console.log("File Uploaded Successfully to ",uploadpath);
-							fs.unlinkSync( path.join(process.cwd(), file.path));
+							//fs.unlinkSync( path.join(process.cwd(), file.path));
 							return res.status(200).json({originalname:req.file.originalname, uploadname:req.file.filename});
 						}
 					});
