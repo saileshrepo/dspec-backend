@@ -32,6 +32,7 @@ router.post('/upload', function(req,res,next){
         if(err){
             return res.status(501).json({error:err});
         }
+		let userRequestId = req.body.UserRequestId || 'New';
         if(req.file){
             var file = req.file,
                 name = file.originalname,
@@ -39,16 +40,25 @@ router.post('/upload', function(req,res,next){
               
             networkDrive.pathToWindowsPath(networkDrivePathIn)
 				.then(function (windowsPath) {
-					var uploadpath = windowsPath + '\\' + name;
+					var uploadpath = windowsPath + '\\' + userRequestId + '\\' + name;
 					console.log(uploadpath);
+					try {
+						fs.mkdirSync(windowsPath + '\\' + userRequestId + '\\', { recursive: true })
+					} catch (err) {
+						if (err.code !== 'EEXIST') return res.status(501).json({error:err});
+					}
 					mv(file.path,uploadpath,function(err){
 						if(err){
 							console.log("File Upload Failed for ",uploadpath,err);
 							return res.status(501).json({error:err});
 						}else{
 							console.log("File Uploaded Successfully to ",uploadpath);
-							//fs.unlinkSync( path.join(process.cwd(), file.path));
-							return res.status(200).json({originalname:req.file.originalname, uploadname:req.file.filename});
+							try{
+								fs.unlinkSync(path.join(process.cwd(),'uploads',name))
+							} catch(err) { 
+								console.log('File Delete failed for', path.join(process.cwd(),'uploads',name) , err)
+							}
+							return res.status(200).json({originalname:req.file.originalname, uploadname:req.file.filename, uploadpath: uploadpath});
 						}
 					});
             });
@@ -67,7 +77,7 @@ router.get('/download/:userRequestId/:filename', function (req, res) {
 });
 
 router.get('/delete/:filename', function (req, res) {
-    console.log('File Delete from network drive for ', req.params.filename )
+	console.log('File Delete from network drive for ', req.params.filename )
     networkDrive.pathToWindowsPath(networkDrivePathIn)
         .then(function (windowsPath) {
             var filePath = windowsPath + '\\' + req.params.filename;
