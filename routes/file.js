@@ -27,12 +27,12 @@ var store = multer.diskStorage({
 
 var upload = multer({storage:store}).single('file');
 
-router.post('/upload', function(req,res,next){
+router.post('/upload/:userRequestId', function(req,res,next){
     upload(req,res,function(err){
         if(err){
             return res.status(501).json({error:err});
         }
-		let userRequestId = req.body.UserRequestId || 'New';
+		let userRequestId = req.params.UserRequestId || 'New';
         if(req.file){
             var file = req.file,
                 name = file.originalname,
