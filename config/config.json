@@ -1,0 +1,44 @@
+{
+    "development": {
+        "networkDrivePaths": {
+            "networkDrivePathRoot" : "\\\\usazuconde00173\\DFTE\\R2\\DSPEC",
+			"networkDrivePathIn" : "IN",
+			"networkDrivePathOut" : "OUT"
+        },
+        "uiPath": {
+            "endpoints": {
+                "authenticate": "https://qa-uipath-oracleofferingdfte.deloitte.com/api/account/authenticate",
+                "getFolderID": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Folders",
+                "getAssets": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Assets",
+                "getCredentials": "https://qa-oracleofferingdfte.deloitte.com/azurekeyvaultapp/dftesecret"
+              },
+            "authPayload": {
+                "tenancyName": "DFTEQA",
+                "usernameOrEmailAddress": "DFTE_DSPEC_APPS",
+                "password": "Dspec@123"
+              }
+        }
+    },
+
+
+    "production": {
+        "networkDrivePaths": {
+			"networkDrivePathRoot" : "\\\\usazuconde00173\\DFTE\\R2\\DSPEC",
+			"networkDrivePathIn" : "IN",
+			"networkDrivePathOut" : "OUT"
+        },
+        "uiPath": {
+            "endpoints": {
+                "authenticate": "https://qa-uipath-oracleofferingdfte.deloitte.com/api/account/authenticate",
+                "getFolderID": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Folders",
+                "getAssets": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Assets",
+                "getCredentials": "https://qa-oracleofferingdfte.deloitte.com/azurekeyvaultapp/dftesecret"
+              },
+            "authPayload": {
+                "tenancyName": "DFTEQA",
+                "usernameOrEmailAddress": "DFTE_DSPEC_APPS",
+                "password": "RHNwZWNAMTIz"
+              }
+        }
+    }
+}
