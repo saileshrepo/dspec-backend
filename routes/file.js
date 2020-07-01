@@ -5,16 +5,6 @@ const router = express.Router();
 const mv = require('mv');
 const path = require('path');
 const networkDrive = require('windows-network-drive');
-const configData = require('../config/config');
-
-const networkDriveRoot = configData.networkDrivePaths.networkDrivePathRoot;
-const networkDrivePathIn = configData.networkDrivePaths.networkDrivePathIn;
-const networkDrivePathOut = configData.networkDrivePaths.networkDrivePathOut;
-
-networkDrive.find(networkDrivePathIn)
-  .then(function (result) {
-    console.log('Network Drives :', result)
-  });
 
 var store = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -34,6 +24,9 @@ router.post('/upload/:projectName/:userRequestId', function (req, res, next) {
     if (err) {
       return res.status(501).json({ error: err });
     }
+    let networkDriveRoot = req.query.networkDriveRoot;
+    let networkDrivePathIn = req.query.networkDrivePathIn;
+
     let userRequestId = req.params.userRequestId || 'New';
     if (req.file) {
       var file = req.file,
@@ -43,13 +36,23 @@ router.post('/upload/:projectName/:userRequestId', function (req, res, next) {
       var fileExtension = name.match(regex);
       var filename = name.substr(0, name.lastIndexOf('.'));
       var newFileName = filename + '_' + req.params.userRequestId + '.' + fileExtension;
-      networkDrive.pathToWindowsPath(networkDriveRoot)
+      var projectName = req.params.projectName;
+      var networkDrivePath = networkDriveRoot + projectName + '\\' + networkDrivePathIn;
+
+      // console.log("Project Name", projectName);
+      // console.log("NetworkDriveIn", networkDrivePathIn);
+      // console.log("New File Name", newFileName);
+      // console.log("Network Drive Path", networkDrivePath);
+
+      networkDrive.pathToWindowsPath(networkDrivePath)
         .then(function (windowsPath) {
-          var uploadpath = windowsPath + '\\' + req.params.projectName + '\\' + networkDrivePathIn + '\\' + newFileName;
+
+          console.log("Network Windows Drive Path", windowsPath);
+          var uploadpath = windowsPath + '\\' +  newFileName;
           uploadpath = uploadpath.trim();
           console.log("Upload path", uploadpath);
           try {
-            fs.mkdirSync(windowsPath + '\\' + req.params.projectName + '\\' + networkDrivePathIn + '\\', { recursive: true })
+            fs.mkdirSync(windowsPath, { recursive: true })
           } catch (err) {
             if (err.code !== 'EEXIST') return res.status(501).json({ error: err });
           }
@@ -64,7 +67,10 @@ router.post('/upload/:projectName/:userRequestId', function (req, res, next) {
               } catch (err) {
                 console.log('File Delete failed for', path.join(process.cwd(), 'uploads', name), err)
               }
-              return res.status(200).json({ originalName: req.file.originalname, uploadname: req.file.filename, newFileName: newFileName });
+              return res.status(200).json({ originalName: req.file.originalname
+                , uploadname: req.file.filename
+                , newFileName: newFileName
+                , uploadPath: uploadpath });
             }
           });
         });
@@ -82,16 +88,28 @@ router.get('/get/:projectName/:filename', function (req, res) {
     });
 });
 
-router.get('/delete/:projectName/:filename', function (req, res) {
-  console.log('File Delete from network drive for ', req.params.filename)
-  networkDrive.pathToWindowsPath(networkDrivePathIn)
-    .then(function (networkDriveRoot) {
-      var filePath = windowsPath + '\\' + req.params.projectName + '\\' + networkDrivePathIn + '\\' + req.params.filename;
+router.delete('/delete/:projectName/:filename', function (req, res) {
+  
+  console.log('File Delete from network drive for ', req.params.filename);
+
+  let networkDriveRoot = req.query.networkDriveRoot;
+  let networkDrivePathIn = req.query.networkDrivePathIn;
+
+  let fileToDeleteName = req.params.filename;
+  
+  var projectName = req.params.projectName;
+  var networkDrivePath = networkDriveRoot + projectName + '\\' + networkDrivePathIn;
+
+  networkDrive.pathToWindowsPath(networkDrivePath)
+    .then(function (windowsPath) {
+      var filePath = windowsPath + '\\' +  fileToDeleteName;
+      console.log("FIle to delete", filePath);
       try {
         fs.unlinkSync(filePath)
         console.log("Successfully deleted the file.")
         res.status(200).json({ filename: filePath })
       } catch (err) {
+        console.log(err);
         res.status(400).json(err)
       }
     });
