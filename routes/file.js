@@ -78,13 +78,12 @@ router.post('/upload/:projectName/:userRequestId', function (req, res, next) {
   });
 });
 
-router.get('/get/:projectName/:filename', function (req, res) {
-  console.log('File Download from network drive for ', req.params.filename)
-  networkDrive.pathToWindowsPath(networkDriveRoot)
+router.get('/download', function (req, res) {
+  let downloadPath = req.query.generatedPath;
+  networkDrive.pathToWindowsPath(downloadPath)
     .then(function (windowsPath) {
-      var filePath = windowsPath + '\\' + req.params.projectName + '\\' + networkDrivePathIn + '\\' + req.params.filename;
-      console.log('file downloading path ', filePath);
-      res.download(filePath);
+      console.log('File downloading path', windowsPath);
+      res.download(windowsPath);
     });
 });
 
