@@ -47,7 +47,7 @@ router.post('/upload/:projectName/:userRequestId', function (req, res, next) {
         .then(function (windowsPath) {
           var uploadpath = windowsPath + '\\' + req.params.projectName + '\\' + networkDrivePathIn + '\\' + newFileName;
           uploadpath = uploadpath.trim();
-          console.log(uploadpath);
+          console.log("Upload path", uploadpath);
           try {
             fs.mkdirSync(windowsPath + '\\' + req.params.projectName + '\\' + networkDrivePathIn + '\\', { recursive: true })
           } catch (err) {
