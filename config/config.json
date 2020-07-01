@@ -1,10 +1,6 @@
 {
     "development": {
-        "networkDrivePaths": {
-            "networkDrivePathRoot" : "\\\\usazuconde00173\\DFTE\\R2\\DSPEC",
-			"networkDrivePathIn" : "IN",
-			"networkDrivePathOut" : "OUT"
-        },
+        
         "uiPath": {
             "endpoints": {
                 "authenticate": "https://qa-uipath-oracleofferingdfte.deloitte.com/api/account/authenticate",
@@ -22,11 +18,7 @@
 
 
     "production": {
-        "networkDrivePaths": {
-			"networkDrivePathRoot" : "\\\\usazuconde00173\\DFTE\\R2\\DSPEC",
-			"networkDrivePathIn" : "IN",
-			"networkDrivePathOut" : "OUT"
-        },
+        
         "uiPath": {
             "endpoints": {
                 "authenticate": "https://qa-uipath-oracleofferingdfte.deloitte.com/api/account/authenticate",
