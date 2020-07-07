@@ -10,7 +10,9 @@ var store = multer.diskStorage({
   destination: function (req, file, callback) {
     console.log('destination');
     console.log(file);
-    callback(null, './uploads');
+    let uploadPath = path.join(__dirname, '../uploads');
+    console.log("upload path for "+file.originalname, uploadPath)
+    callback(null, uploadPath);
   },
   filename: function (req, file, callback) {
     callback(null, Date.now() + '.' + file.originalname);
