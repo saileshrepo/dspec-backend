@@ -33,7 +33,8 @@ router.post('/authenticate',(req, res) => {
             console.log(error.response.headers);
           }
         res.status(401).json({
-            message: "Unauthorized"
+            message: "Unauthorized",
+            error: error.response
         });
     });
 });
@@ -65,8 +66,9 @@ router.get('/assets', (req, res) => {
             console.log(error.response.headers);
           }
 
-          res.json({
-              message: "Could not fetch assets"
+          res.status(501).json({
+              message: "Could not fetch assets",
+              error: error.response
           })
       });
     
@@ -98,8 +100,9 @@ router.get('/credentials/:uiPathAssetName/:folderName/:tenancyName',(req,res) =>
             console.log(error.response.headers);
           }
 
-          res.json({
-              message: "Could not fetch credential details for Credential "+uiPathAssetName
+          res.status(501).json({
+              message: "Could not fetch credential details for Credential "+uiPathAssetName,
+              error: error.response
           })
       });
 
