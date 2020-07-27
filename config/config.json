@@ -7,11 +7,6 @@
                 "getFolderID": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Folders",
                 "getAssets": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Assets",
                 "getCredentials": "https://qa-oracleofferingdfte.deloitte.com/azurekeyvaultapp/dftesecret"
-              },
-            "authPayload": {
-                "tenancyName": "DFTEQA",
-                "usernameOrEmailAddress": "DFTE_DSPEC_APPS",
-                "password": "Dspec@123"
               }
         }
     },
@@ -25,11 +20,6 @@
                 "getFolderID": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Folders",
                 "getAssets": "https://qa-uipath-oracleofferingdfte.deloitte.com/odata/Assets",
                 "getCredentials": "https://qa-oracleofferingdfte.deloitte.com/azurekeyvaultapp/dftesecret"
-              },
-            "authPayload": {
-                "tenancyName": "DFTEQA",
-                "usernameOrEmailAddress": "DFTE_DSPEC_APPS",
-                "password": "RHNwZWNAMTIz"
               }
         }
     }

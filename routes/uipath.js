@@ -5,7 +5,6 @@ const config = require('../config/config');
 const axios = require('axios');
 
 const uiPathAuthURL = config.uiPath.endpoints.authenticate;
-const uiPathAuthPayload = config.uiPath.authPayload;
 
 const uiPathAssetsURL = config.uiPath.endpoints.getAssets;
 
@@ -14,6 +13,8 @@ const uiPathCredentialURL = config.uiPath.endpoints.getCredentials;
 // UIPath wrapper routes
 
 router.post('/authenticate',(req, res) => {
+
+    let uiPathAuthPayload = req.body;
     console.log("UIPath Authenticate invoked");
     console.log("UIPath Auth URL is",uiPathAuthURL);
     console.log("UIPath Auth Payload is", uiPathAuthPayload);
