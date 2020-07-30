@@ -35,7 +35,7 @@ router.post('/authenticate',(req, res) => {
           }
         res.status(401).json({
             message: "Unauthorized",
-            error: error.response
+            error: error.response.data
         });
     });
 });
