@@ -10,6 +10,8 @@ const uiPathAssetsURL = config.uiPath.endpoints.getAssets;
 
 const uiPathCredentialURL = config.uiPath.endpoints.getCredentials;
 
+const uiPathFoldersURL = config.uiPath.endpoints.getFolderID;
+
 // UIPath wrapper routes
 
 router.post('/authenticate',(req, res) => {
@@ -44,33 +46,41 @@ router.get('/assets', (req, res) => {
 
     let bearerAuthHeader = req.header("Authorization");
     let tenantName = req.header("X-UIPATH-TenantName");
+    let organizationId = req.header("X-UIPATH-OrganizationUnitId");
 
     console.log("Bearer Authorization Header",bearerAuthHeader);
     console.log("Tenant Name Header", tenantName);
+    console.log("Organization ID", organizationId);
 
     axios({
         method: 'get',
         url: uiPathAssetsURL,
         headers: {
             'Authorization':bearerAuthHeader,
-            'X-UIPATH-TenantName':tenantName
+            'X-UIPATH-TenantName':tenantName,
+            'X-UIPATH-OrganizationUnitId':organizationId
         }
       }).then(response => {
+          console.log("Fetched all assets");
           res.json(response.data);
       }).catch(error => {
-
-          console.log(error);
+        //   console.log(error);
 
           if(error.response) {
             console.log(error.response.data);
             console.log(error.response.status);
-            console.log(error.response.headers);
-          }
+            // console.log(error.response.headers);
 
-          res.status(501).json({
-              message: "Could not fetch assets",
-              error: error.response
-          })
+            res.status(501).json({
+                message: "Could not fetch assets",
+                error: error.response.data
+            })
+          } else {
+            console.log(error);
+            res.status(501).json({
+                message: "Something went wrong"
+            });
+          }
       });
     
 });
@@ -83,8 +93,10 @@ router.get('/credentials/:uiPathAssetName/:folderName/:tenancyName',(req,res) =>
 
     let uiPathCredentialURLWithRoutes = uiPathCredentialURL
     + '/' + uiPathAssetName
-    + '/' + 'abc'
+    + '/' + folderName
     + '/' + tenancyName;
+
+    console.log('GET '+uiPathCredentialURLWithRoutes);
 
     axios({
         method: 'get',
@@ -92,8 +104,6 @@ router.get('/credentials/:uiPathAssetName/:folderName/:tenancyName',(req,res) =>
       }).then(response => {
           res.json(response.data);
       }).catch(error => {
-
-          console.log(error);
 
           if(error.response) {
             console.log(error.response.data);
@@ -103,9 +113,47 @@ router.get('/credentials/:uiPathAssetName/:folderName/:tenancyName',(req,res) =>
 
           res.status(501).json({
               message: "Could not fetch credential details for Credential "+uiPathAssetName,
-              error: error.response
+              error: error.response.data
           })
       });
+
+});
+
+router.get('/folders',(req,res) => {
+
+    let bearerAuthHeader = req.header("Authorization");
+    let tenantName = req.header("X-UIPATH-TenantName");
+    let folderNameFilter = req.query['$filter'];
+
+    axios({
+        method: 'get',
+        url: uiPathFoldersURL,
+        headers: {
+            'Authorization':bearerAuthHeader,
+            'X-UIPATH-TenantName':tenantName
+        },
+        params: {
+            '$filter':folderNameFilter
+        }
+    }).then(response => {
+
+        console.log("/Folders/ response status", response.status);
+        console.log("/Folders/ response data", response.data);
+
+        res.json(response.data);
+    }).catch(errorResponse => {
+        if(errorResponse.response){
+            console.log("/Folders/ error response status", errorResponse.response.status);
+            console.log("/Folders/ error response data", errorResponse.response.data);
+
+            res.status(errorResponse.response.status).json(errorResponse.response.data);
+        } else {
+            console.log(errorResponse);
+            res.json({
+                message: "Something went wrong"
+            });
+        }
+    })
 
 });
 
