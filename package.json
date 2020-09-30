@@ -29,7 +29,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
     "loadash": "^1.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "mv": "^2.1.1",
